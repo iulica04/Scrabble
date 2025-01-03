@@ -10,16 +10,19 @@ class Menu:
         self.margin = margin
         self.menu_height = menu_height
         self.menu_letters = random.choices(letters, k=5)
-        total_menu_width = len(self.menu_letters) * (self.cell_size + self.margin * 2) - self.margin * 2
-        start_x = (screen_size - total_menu_width) // 2
-        self.menu_letter_positions = [
-            (start_x + i * (self.cell_size + self.margin * 2), screen_size + (self.menu_height - self.cell_size) // 2)
-            for i in range(len(self.menu_letters))
-        ]
+        self.initialize_menu()
 
         # Define button positions and sizes
         self.submit_button_rect = pygame.Rect(screen_size - 150, screen_size + 20, 100, 40)
         self.shuffle_button_rect = pygame.Rect(screen_size - 650, screen_size + 20, 100, 40)
+
+    def initialize_menu(self):
+        total_menu_width = len(self.menu_letters) * (self.cell_size + self.margin * 2) - self.margin * 2
+        start_x = (self.screen_size - total_menu_width) // 2
+        self.menu_letter_positions = [
+            (start_x + i * (self.cell_size + self.margin * 2), self.screen_size + (self.menu_height - self.cell_size) // 2)
+            for i in range(len(self.menu_letters))
+        ]
 
     def draw(self, screen, font, score_font):
         menu_y = screen.get_height() - self.menu_height
@@ -51,16 +54,25 @@ class Menu:
 
     def handle_button_click(self, pos):
         if self.submit_button_rect.collidepoint(pos):
+            self.replace_letters()
             return "submit"
         elif self.shuffle_button_rect.collidepoint(pos):
+            self.shuffle_letters()
             return "shuffle"
         return None
 
+    def replace_letters(self):
+        # Replace used letters with new ones
+        print(f"Number of letters left in the menu: {len(self.menu_letters)}")
+        num_new_letters = 5 - len(self.menu_letters)
+        self.menu_letters.extend([self.get_random_letter() for _ in range(num_new_letters)])
+        self.initialize_menu()
+
+    @staticmethod
+    def get_random_letter():
+        # Generate a random letter (you can customize this method as needed)
+        return random.choice(letters)
+
     def shuffle_letters(self):
         random.shuffle(self.menu_letters)
-        total_menu_width = len(self.menu_letters) * (self.cell_size + self.margin * 2) - self.margin * 2
-        start_x = (self.screen_size - total_menu_width) // 2
-        self.menu_letter_positions = [
-            (start_x + i * (self.cell_size + self.margin * 2), self.screen_size + (self.menu_height - self.cell_size) // 2)
-            for i in range(len(self.menu_letters))
-        ]
+        self.initialize_menu()
