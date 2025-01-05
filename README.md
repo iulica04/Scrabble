@@ -13,4 +13,12 @@ Pentru a incepe jocul, va trebui sa adaugam un fisier care contine pe fiecare li
 
 Dupa intrarea in joc, prima incercare de a forma un cuvant ii apartine jucatorului. El va trebui sa formeze un cuvant cu literele furnizate, apoi sa apese submit pentru a se valida cuvantul. Jucatorul are posibilitatea si de a reamesteca literele folosind butonul "Suffle".
 
-<img align="center" src="Images/3.png">
+<img align="center" src="Images/4.png">
+
+Daca utilizatorul va introduce un cuvant ce nu exita in dictionarul/fisierul furnizat la inceputul jocului, va fi atentionat printru-un mesaj de eroare. 
+
+<img align="center" src="Images/5.png">
+
+Scorul este actualizat dupa fiecare adaugare a unui cuvant nou. In momentul in care nu se mai pot forma cuvinte (nu mai exista spatiu suficient) se va alege castigatorul reprizei pe baza scorului.
+
+<img align="center" src="Images/7.png">
