@@ -3,4 +3,10 @@ Acesta reprezinta proiectul la disciplica Python [![](https://skillicons.dev/ico
 
 ## MODUL DE RULARE
 Jocul incepe simplu: se va da start din program. Dupa pornirea jocului se va afisa fereastra principala: 
+
 <img align="center" src="Images/1.png">
+
+Pentru a incepe jocul, va trebui sa adaugam un fisier care contine pe fiecare linie cate un cuvant
+, fisier ce va reprezenta dictionarul de cuvinte ce vor putea fi folosite in joc.
+
+<img align="center" src="Images/2.png">
