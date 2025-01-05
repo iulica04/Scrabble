@@ -203,8 +203,13 @@ class Game:
         print(f"Total score: {self.total_score}")
 
     def draw_score(self):
-        score_text = self.font.render(f"Score: {self.total_score}", True, (255, 255, 255))
-        self.screen.blit(score_text, (self.screen_size + 20, 20))
+        # Draw player's score
+        player_score_text = self.font.render(f"Player Score: {self.total_score}", True, (255, 255, 255))
+        self.screen.blit(player_score_text, (self.screen_size + 20, 20))
+
+        # Draw opponent's score
+        opponent_score_text = self.font.render(f"Opponent Score: {self.opponent.total_score}", True, (255, 255, 255))
+        self.screen.blit(opponent_score_text, (self.screen_size + 20, 60))
 
         # Draw special tiles information
         special_tile_info = {
@@ -286,3 +291,13 @@ class Game:
             if word_str not in self.menu.dictionary:
                 return False, word_str
         return True, None
+
+    def end_game(self):
+        winner = "Player" if self.total_score > self.opponent.total_score else "Opponent"
+        if self.total_score == self.opponent.total_score:
+            winner = "It's a tie!"
+
+        root = tk.Tk()
+        root.withdraw()  # Hide the root window
+        messagebox.showinfo("Game Over", f"The winner is: {winner}")
+        root.destroy()

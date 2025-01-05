@@ -64,13 +64,13 @@ class Menu:
             screen.blit(score_text, (score_x, score_y))
 
         # Draw buttons
-        pygame.draw.rect(screen, (0, 255, 0), self.submit_button_rect)
+        pygame.draw.rect(screen, Utils.hex_to_rgb('#92a1c2'), self.submit_button_rect)
         submit_text = font.render("Submit", True, (0, 0, 0))
-        screen.blit(submit_text, (self.submit_button_rect.x + 10, self.submit_button_rect.y + 5))
+        screen.blit(submit_text, (self.submit_button_rect.x + 8, self.submit_button_rect.y+7))
 
-        pygame.draw.rect(screen, (0, 0, 255), self.shuffle_button_rect)
+        pygame.draw.rect(screen, Utils.hex_to_rgb('#6B597F'), self.shuffle_button_rect)
         shuffle_text = font.render("Shuffle", True, (255, 255, 255))
-        screen.blit(shuffle_text, (self.shuffle_button_rect.x + 10, self.shuffle_button_rect.y + 5))
+        screen.blit(shuffle_text, (self.shuffle_button_rect.x + 10, self.shuffle_button_rect.y+7))
 
     def handle_button_click(self, pos):
         if self.submit_button_rect.collidepoint(pos):
@@ -86,6 +86,7 @@ class Menu:
         if valid_words:
             selected_word = random.choice(valid_words)
             self.menu_letters = list(selected_word[:7])
+            random.shuffle(self.menu_letters)
             if len(self.menu_letters) < 7:
                 self.menu_letters.extend(random.choices(letters, k=7 - len(self.menu_letters)))
         else:
