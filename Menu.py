@@ -1,22 +1,42 @@
 import pygame
 import random
-import Utils
 from constants import letters, letter_scores
+import Utils
 
 class Menu:
-    def __init__(self, screen_size, cell_size, margin, menu_height):
+    def __init__(self, screen_size, cell_size, margin, menu_height, dictionary_path, game):
         self.cell_size = cell_size
         self.screen_size = screen_size
         self.margin = margin
         self.menu_height = menu_height
-        self.menu_letters = random.choices(letters, k=5)
+        self.dictionary = self.load_dictionary(path=dictionary_path)
+        self.menu_letters = []
+        self.used_words = set()
+        self.game = game
         self.initialize_menu()
 
         # Define button positions and sizes
         self.submit_button_rect = pygame.Rect(screen_size - 150, screen_size + 20, 100, 40)
         self.shuffle_button_rect = pygame.Rect(screen_size - 650, screen_size + 20, 100, 40)
 
+    def load_dictionary(self, path):
+        with open(path, 'r') as file:
+            words = file.read().splitlines()
+        return set(word.upper() for word in words)
+
     def initialize_menu(self):
+        self.menu_letters = self.get_valid_letters()
+        self.update_letter_positions()
+
+    def get_valid_letters(self):
+        valid_words = [word for word in self.dictionary if len(word) == 7 and word not in self.used_words]
+        if valid_words:
+            selected_word = random.choice(valid_words)
+            self.used_words.add(selected_word)
+            return list(selected_word)
+        return random.choices(letters, k=5)  # Fallback to random letters if no valid word is found
+
+    def update_letter_positions(self):
         total_menu_width = len(self.menu_letters) * (self.cell_size + self.margin * 2) - self.margin * 2
         start_x = (self.screen_size - total_menu_width) // 2
         self.menu_letter_positions = [
@@ -54,7 +74,6 @@ class Menu:
 
     def handle_button_click(self, pos):
         if self.submit_button_rect.collidepoint(pos):
-            self.replace_letters()
             return "submit"
         elif self.shuffle_button_rect.collidepoint(pos):
             self.shuffle_letters()
@@ -63,10 +82,24 @@ class Menu:
 
     def replace_letters(self):
         # Replace used letters with new ones
-        print(f"Number of letters left in the menu: {len(self.menu_letters)}")
-        num_new_letters = 5 - len(self.menu_letters)
-        self.menu_letters.extend([self.get_random_letter() for _ in range(num_new_letters)])
-        self.initialize_menu()
+        while True:
+            num_new_letters = 7 - len(self.menu_letters)
+            new_letters = [self.get_random_letter() for _ in range(num_new_letters)]
+            potential_word = ''.join(self.menu_letters + new_letters)
+
+            if any(word in self.dictionary for word in self.get_all_combinations(potential_word)):
+                self.menu_letters.extend(new_letters)
+                break
+
+        self.update_letter_positions()
+
+    def get_all_combinations(self, letters):
+        from itertools import permutations
+        combinations = set()
+        for i in range(1, len(letters) + 1):
+            for combo in permutations(letters, i):
+                combinations.add(''.join(combo))
+        return combinations
 
     @staticmethod
     def get_random_letter():
@@ -75,4 +108,4 @@ class Menu:
 
     def shuffle_letters(self):
         random.shuffle(self.menu_letters)
-        self.initialize_menu()
+        self.update_letter_positions()

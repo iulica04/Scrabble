@@ -5,12 +5,13 @@ import Utils
 from Board import Board
 from Menu import Menu
 from Cell import Cell
-from constants import letters, letter_scores
+from constants import letters, letter_scores, special_tiles
 import tkinter as tk
 from tkinter import messagebox
 
 class Game:
-    def __init__(self):
+    def __init__(self, dictionary_path):
+        self.dictionary_path = dictionary_path
         self.board_size = 15
         self.cell_size = 45
         self.margin = 3
@@ -26,7 +27,7 @@ class Game:
         self.score_font = pygame.font.Font(None, 20)
 
         self.board = Board(self.board_size, self.cell_size, self.margin)
-        self.menu = Menu(self.screen_size, self.cell_size, self.margin, self.menu_height)
+        self.menu = Menu(self.screen_size, self.cell_size, self.margin, self.menu_height, dictionary_path, self)
 
         self.dragged_letter = None
         self.dragged_letter_offset = (0, 0)
@@ -43,7 +44,6 @@ class Game:
     def run(self):
         while True:
             self.screen.fill(Utils.hex_to_rgb('#1a1b21'))
-
             self.board.draw(self.screen, self.font, self.score_font)
             self.menu.draw(self.screen, self.font, self.score_font)
             self.draw_score()
@@ -68,11 +68,29 @@ class Game:
 
             pygame.display.flip()
 
+    def validate_new_word(self):
+        if not self.current_iteration_words:
+            return False, "No new word added"
+
+        for word in self.current_iteration_words:
+            word_str = ''.join([letter for letter, _ in word])
+            if word_str not in self.menu.dictionary:
+                return False, word_str
+        return True, None
+
     def handle_mouse_button_down(self, event):
         mouse_x, mouse_y = event.pos
 
         button_action = self.menu.handle_button_click(event.pos)
         if button_action == "submit":
+            self.find_word()  # Ensure words are found before validation
+            valid, invalid_word = self.validate_new_word()
+            if not valid:
+                root = tk.Tk()
+                root.withdraw()  # Hide the root window
+                messagebox.showerror("Error", f"The word '{invalid_word}' is not in the dictionary.")
+                root.destroy()
+                return
             if not self.board.placed_letters or self.board.placed_letters.keys() == self.previous_placed_letters:
                 root = tk.Tk()
                 root.withdraw()  # Hide the root window
@@ -81,12 +99,19 @@ class Game:
                 return
             self.previous_placed_letters = set(self.board.placed_letters.keys())
             self.locked_letters.update(self.board.placed_letters.keys())
-            self.find_word()
+            if self.iteration > 0 and not self.check_words_connected():
+                root = tk.Tk()
+                root.withdraw()  # Hide the root window
+                messagebox.showerror("Error", "Words are not connected!")
+                root.destroy()
+                self.locked_letters.difference_update(self.board.placed_letters.keys())
+                return
             self.calculate_score()
             self.iteration += 1
             self.print_board_matrix()  # Print the matrix after submitting
             for word in self.current_iteration_words:
                 print(f"Word added: {''.join([letter for letter, _ in word])}")
+            self.menu.replace_letters()  # Generate new letters only when words are connected
         elif button_action == "shuffle":
             self.menu.shuffle_letters()
             return
@@ -121,7 +146,7 @@ class Game:
             col = (mouse_x - self.margin) // (self.cell_size + self.margin)
             row = (mouse_y - self.margin) // (self.cell_size + self.margin)
 
-            if 0 <= row < self.board_size and 0 <= col < self.board_size:
+            if 0 <= row < self.board_size and 0 <= col < self.board_size and not self.board_matrix[row][col]:
                 if self.letter_from_board:
                     self.board_matrix[self.letter_from_board[0]][self.letter_from_board[1]] = None  # Remove letter from previous position
                 self.board.placed_letters[(row, col)] = self.dragged_letter
@@ -130,9 +155,11 @@ class Game:
                 self.print_board_matrix()  # Print the matrix after placing a letter
             else:
                 if self.letter_from_board:
-                    self.board.cell_colors[(self.letter_from_board[0], self.letter_from_board[1])] = Cell.get_cell_color(self.letter_from_board[0], self.letter_from_board[1])
+                    self.board_matrix[self.letter_from_board[0]][self.letter_from_board[1]] = None  # Remove letter from previous position
+                    self.menu.menu_letters.append(self.dragged_letter)
+                else:
+                    self.menu.menu_letters.append(self.dragged_letter)
 
-                self.menu.menu_letters.append(self.dragged_letter)
                 total_menu_width = len(self.menu.menu_letters) * (self.cell_size + self.margin * 2) - self.margin * 2
                 start_x = (self.screen_size - total_menu_width) // 2
                 self.menu.menu_letter_positions = [
@@ -147,13 +174,23 @@ class Game:
 
     def calculate_score(self):
         score = 0
-        for word, orientation in self.words:
+        for word in self.current_iteration_words:
             word_score = 0
+            word_multiplier = 1
             for letter, (row, col) in word:
-                if (row, col) in self.board.placed_letters:
-                    word_score += letter_scores[letter]
-                elif (row, col) in self.locked_letters:
-                    word_score += letter_scores[letter]
+                letter_score = letter_scores[letter]
+                if (row, col) in special_tiles:
+                    tile_type = special_tiles[(row, col)]
+                    if tile_type == 'DL':
+                        letter_score *= 2
+                    elif tile_type == 'TL':
+                        letter_score *= 3
+                    elif tile_type == 'DW':
+                        word_multiplier *= 2
+                    elif tile_type == 'TW':
+                        word_multiplier *= 3
+                word_score += letter_score
+            word_score *= word_multiplier
             score += word_score
         self.total_score += score
         print(f"Score for this turn: {score}")
@@ -162,6 +199,21 @@ class Game:
     def draw_score(self):
         score_text = self.font.render(f"Score: {self.total_score}", True, (255, 255, 255))
         self.screen.blit(score_text, (self.screen_size + 20, 20))
+
+        # Draw special tiles information
+        special_tile_info = {
+            'DL': ('Double Letter', Utils.hex_to_rgb('#92a1c2')),
+            'TL': ('Triple Letter', Utils.hex_to_rgb('3f5b8d')),
+            'DW': ('Double Word', Utils.hex_to_rgb('#a2869c')),
+            'TW': ('Triple Word', Utils.hex_to_rgb('#6B597F'))
+        }
+
+        y_offset = self.screen_size - 160
+        for tile_type, (description, color) in special_tile_info.items():
+            pygame.draw.rect(self.screen, color, (self.screen_size + 20, y_offset, 100, 30))
+            tile_text = self.score_font.render(f"{tile_type}: {description}", True, Utils.hex_to_rgb('#d9d9d9'))
+            self.screen.blit(tile_text, (self.screen_size + 130, y_offset + 5))
+            y_offset += 40
 
     def find_word(self):
         checked_positions = set()
@@ -203,6 +255,28 @@ class Game:
                             self.current_iteration_words.append(word)
                         print(f"Found vertical word: {''.join([letter for letter, _ in word])}")
 
+    def check_words_connected(self):
+        if not self.words:
+            return False
+
+        for word, _ in self.words:
+            for _, (row, col) in word:
+                if self.board_matrix[row][col][1] == self.iteration:
+                    # Check adjacent cells for letters from previous iterations
+                    for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                        adj_row, adj_col = row + dr, col + dc
+                        if 0 <= adj_row < self.board_size and 0 <= adj_col < self.board_size:
+                            if self.board_matrix[adj_row][adj_col] and self.board_matrix[adj_row][adj_col][1] < self.iteration:
+                                return True
+        return False
+
     def print_board_matrix(self):
         for row in self.board_matrix:
             print([f"{cell[0]}({cell[1]})" if cell else "None" for cell in row])
+
+    def validate_words(self):
+        for word, _ in self.words:
+            word_str = ''.join([letter for letter, _ in word])
+            if word_str not in self.menu.dictionary:
+                return False, word_str
+        return True, None

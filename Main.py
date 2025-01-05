@@ -45,7 +45,7 @@ class MainGUI:
         if self.dictionary_path:
             processor = DictionaryProcessor(self.dictionary_path)
             processor.load_dictionary()
-            game = Game()
+            game = Game(dictionary_path=self.dictionary_path)
             self.root.destroy()  # Close the main window
             game.run()
         else:
