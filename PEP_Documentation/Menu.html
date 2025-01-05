@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module Menu</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">Menu</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:d%3A%5Cscrubble%5Cmenu.py">d:\scrubble\menu.py</a></td></tr></table>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="Utils.html">Utils</a><br>
+</td><td class="multicolumn"><a href="pygame.html">pygame</a><br>
+</td><td class="multicolumn"><a href="random.html">random</a><br>
+</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="Menu.html#Menu">Menu</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Menu">class <strong>Menu</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#Menu">Menu</a>(screen_size,&nbsp;cell_size,&nbsp;margin,&nbsp;menu_height,&nbsp;dictionary_path,&nbsp;game)<br>
+&nbsp;<br>
+Represents&nbsp;the&nbsp;menu&nbsp;for&nbsp;the&nbsp;Scrabble&nbsp;game.<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cell_size&nbsp;(int):&nbsp;The&nbsp;size&nbsp;of&nbsp;each&nbsp;cell&nbsp;in&nbsp;the&nbsp;menu.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;screen_size&nbsp;(int):&nbsp;The&nbsp;size&nbsp;of&nbsp;the&nbsp;screen.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;margin&nbsp;(int):&nbsp;The&nbsp;margin&nbsp;between&nbsp;cells.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;menu_height&nbsp;(int):&nbsp;The&nbsp;height&nbsp;of&nbsp;the&nbsp;menu.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dictionary&nbsp;(set):&nbsp;The&nbsp;set&nbsp;of&nbsp;words&nbsp;loaded&nbsp;from&nbsp;the&nbsp;dictionary&nbsp;file.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;menu_letters&nbsp;(list):&nbsp;The&nbsp;list&nbsp;of&nbsp;letters&nbsp;in&nbsp;the&nbsp;menu.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;used_words&nbsp;(set):&nbsp;The&nbsp;set&nbsp;of&nbsp;words&nbsp;that&nbsp;have&nbsp;been&nbsp;used.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;game&nbsp;(Game):&nbsp;The&nbsp;game&nbsp;instance.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;submit_button_rect&nbsp;(pygame.Rect):&nbsp;The&nbsp;rectangle&nbsp;for&nbsp;the&nbsp;submit&nbsp;button.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;shuffle_button_rect&nbsp;(pygame.Rect):&nbsp;The&nbsp;rectangle&nbsp;for&nbsp;the&nbsp;shuffle&nbsp;button.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Menu-__init__"><strong>__init__</strong></a>(self, screen_size, cell_size, margin, menu_height, dictionary_path, game)</dt><dd><span class="code">Initializes&nbsp;the&nbsp;<a href="#Menu">Menu</a>&nbsp;with&nbsp;the&nbsp;given&nbsp;parameters.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;screen_size&nbsp;(int):&nbsp;The&nbsp;size&nbsp;of&nbsp;the&nbsp;screen.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cell_size&nbsp;(int):&nbsp;The&nbsp;size&nbsp;of&nbsp;each&nbsp;cell&nbsp;in&nbsp;the&nbsp;menu.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;margin&nbsp;(int):&nbsp;The&nbsp;margin&nbsp;between&nbsp;cells.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;menu_height&nbsp;(int):&nbsp;The&nbsp;height&nbsp;of&nbsp;the&nbsp;menu.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dictionary_path&nbsp;(str):&nbsp;The&nbsp;path&nbsp;to&nbsp;the&nbsp;dictionary&nbsp;file.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;game&nbsp;(Game):&nbsp;The&nbsp;game&nbsp;instance.</span></dd></dl>
+
+<dl><dt><a name="Menu-count_neighbors"><strong>count_neighbors</strong></a>(self, row, col)</dt><dd><span class="code">Counts&nbsp;the&nbsp;number&nbsp;of&nbsp;neighboring&nbsp;cells&nbsp;with&nbsp;letters.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;row&nbsp;(int):&nbsp;The&nbsp;row&nbsp;position&nbsp;of&nbsp;the&nbsp;cell.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;col&nbsp;(int):&nbsp;The&nbsp;column&nbsp;position&nbsp;of&nbsp;the&nbsp;cell.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int:&nbsp;The&nbsp;number&nbsp;of&nbsp;neighboring&nbsp;cells&nbsp;with&nbsp;letters.</span></dd></dl>
+
+<dl><dt><a name="Menu-draw"><strong>draw</strong></a>(self, screen, font, score_font)</dt><dd><span class="code">Draws&nbsp;the&nbsp;menu&nbsp;on&nbsp;the&nbsp;screen.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;screen&nbsp;(pygame.Surface):&nbsp;The&nbsp;screen&nbsp;to&nbsp;draw&nbsp;on.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;font&nbsp;(pygame.font.Font):&nbsp;The&nbsp;font&nbsp;for&nbsp;drawing&nbsp;letters.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;score_font&nbsp;(pygame.font.Font):&nbsp;The&nbsp;font&nbsp;for&nbsp;drawing&nbsp;letter&nbsp;scores.</span></dd></dl>
+
+<dl><dt><a name="Menu-get_available_letters"><strong>get_available_letters</strong></a>(self)</dt><dd><span class="code">Gets&nbsp;the&nbsp;available&nbsp;letters&nbsp;from&nbsp;the&nbsp;board&nbsp;and&nbsp;menu.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;set:&nbsp;A&nbsp;set&nbsp;of&nbsp;available&nbsp;letters.</span></dd></dl>
+
+<dl><dt><a name="Menu-get_valid_letters"><strong>get_valid_letters</strong></a>(self)</dt><dd><span class="code">Gets&nbsp;valid&nbsp;letters&nbsp;for&nbsp;the&nbsp;menu.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;A&nbsp;list&nbsp;of&nbsp;valid&nbsp;letters.</span></dd></dl>
+
+<dl><dt><a name="Menu-handle_button_click"><strong>handle_button_click</strong></a>(self, pos)</dt><dd><span class="code">Handles&nbsp;button&nbsp;clicks&nbsp;in&nbsp;the&nbsp;menu.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pos&nbsp;(tuple):&nbsp;The&nbsp;position&nbsp;of&nbsp;the&nbsp;mouse&nbsp;click.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;The&nbsp;action&nbsp;to&nbsp;be&nbsp;performed&nbsp;("submit"&nbsp;or&nbsp;"shuffle").</span></dd></dl>
+
+<dl><dt><a name="Menu-initialize_menu"><strong>initialize_menu</strong></a>(self)</dt><dd><span class="code">Initializes&nbsp;the&nbsp;menu&nbsp;with&nbsp;valid&nbsp;letters.</span></dd></dl>
+
+<dl><dt><a name="Menu-load_dictionary"><strong>load_dictionary</strong></a>(self, path)</dt><dd><span class="code">Loads&nbsp;the&nbsp;dictionary&nbsp;file&nbsp;and&nbsp;returns&nbsp;a&nbsp;set&nbsp;of&nbsp;words.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;(str):&nbsp;The&nbsp;path&nbsp;to&nbsp;the&nbsp;dictionary&nbsp;file.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;set:&nbsp;A&nbsp;set&nbsp;of&nbsp;words&nbsp;from&nbsp;the&nbsp;dictionary&nbsp;file.</span></dd></dl>
+
+<dl><dt><a name="Menu-replace_letters"><strong>replace_letters</strong></a>(self)</dt><dd><span class="code">Replaces&nbsp;the&nbsp;letters&nbsp;in&nbsp;the&nbsp;menu&nbsp;with&nbsp;new&nbsp;letters.</span></dd></dl>
+
+<dl><dt><a name="Menu-shuffle_letters"><strong>shuffle_letters</strong></a>(self)</dt><dd><span class="code">Shuffles&nbsp;the&nbsp;letters&nbsp;in&nbsp;the&nbsp;menu.</span></dd></dl>
+
+<dl><dt><a name="Menu-update_letter_positions"><strong>update_letter_positions</strong></a>(self)</dt><dd><span class="code">Updates&nbsp;the&nbsp;positions&nbsp;of&nbsp;the&nbsp;letters&nbsp;in&nbsp;the&nbsp;menu.</span></dd></dl>
+
+<hr>
+Static methods defined here:<br>
+<dl><dt><a name="Menu-get_random_letter"><strong>get_random_letter</strong></a>()</dt><dd><span class="code">Gets&nbsp;a&nbsp;random&nbsp;letter&nbsp;from&nbsp;the&nbsp;set&nbsp;of&nbsp;letters.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;A&nbsp;random&nbsp;letter.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>letter_scores</strong> = {'A': 1, 'B': 3, 'C': 3, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4, 'I': 1, 'J': 8, ...}<br>
+<strong>letters</strong> = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'</td></tr></table>
+</body></html>

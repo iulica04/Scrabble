@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module Game</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">Game</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:d%3A%5Cscrubble%5Cgame.py">d:\scrubble\game.py</a></td></tr></table>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="Utils.html">Utils</a><br>
+<a href="tkinter.messagebox.html">tkinter.messagebox</a><br>
+</td><td class="multicolumn"><a href="pygame.html">pygame</a><br>
+<a href="random.html">random</a><br>
+</td><td class="multicolumn"><a href="sys.html">sys</a><br>
+<a href="tkinter.html">tkinter</a><br>
+</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="Game.html#Game">Game</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Game">class <strong>Game</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#Game">Game</a>(dictionary_path)<br>
+&nbsp;<br>
+Represents&nbsp;the&nbsp;Scrabble&nbsp;game.<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dictionary_path&nbsp;(str):&nbsp;The&nbsp;path&nbsp;to&nbsp;the&nbsp;dictionary&nbsp;file.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;board_size&nbsp;(int):&nbsp;The&nbsp;size&nbsp;of&nbsp;the&nbsp;board.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cell_size&nbsp;(int):&nbsp;The&nbsp;size&nbsp;of&nbsp;each&nbsp;cell&nbsp;on&nbsp;the&nbsp;board.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;margin&nbsp;(int):&nbsp;The&nbsp;margin&nbsp;between&nbsp;cells.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;menu_height&nbsp;(int):&nbsp;The&nbsp;height&nbsp;of&nbsp;the&nbsp;menu.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;score_menu&nbsp;(int):&nbsp;The&nbsp;width&nbsp;of&nbsp;the&nbsp;score&nbsp;menu.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;screen_size&nbsp;(int):&nbsp;The&nbsp;size&nbsp;of&nbsp;the&nbsp;screen.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;screen&nbsp;(pygame.Surface):&nbsp;The&nbsp;screen&nbsp;to&nbsp;draw&nbsp;on.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;font&nbsp;(pygame.font.Font):&nbsp;The&nbsp;font&nbsp;for&nbsp;drawing&nbsp;letters.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;score_font&nbsp;(pygame.font.Font):&nbsp;The&nbsp;font&nbsp;for&nbsp;drawing&nbsp;scores.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;board&nbsp;(Board):&nbsp;The&nbsp;game&nbsp;board.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;menu&nbsp;(Menu):&nbsp;The&nbsp;game&nbsp;menu.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dragged_letter&nbsp;(str):&nbsp;The&nbsp;letter&nbsp;being&nbsp;dragged.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dragged_letter_offset&nbsp;(tuple):&nbsp;The&nbsp;offset&nbsp;of&nbsp;the&nbsp;dragged&nbsp;letter.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dragged_letter_pos&nbsp;(tuple):&nbsp;The&nbsp;position&nbsp;of&nbsp;the&nbsp;dragged&nbsp;letter.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;letter_from_board&nbsp;(tuple):&nbsp;The&nbsp;position&nbsp;of&nbsp;the&nbsp;letter&nbsp;from&nbsp;the&nbsp;board.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;locked_letters&nbsp;(set):&nbsp;The&nbsp;set&nbsp;of&nbsp;locked&nbsp;letters.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;total_score&nbsp;(int):&nbsp;The&nbsp;total&nbsp;score&nbsp;of&nbsp;the&nbsp;player.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;words&nbsp;(list):&nbsp;The&nbsp;list&nbsp;of&nbsp;words&nbsp;found&nbsp;on&nbsp;the&nbsp;board.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;current_iteration_words&nbsp;(list):&nbsp;The&nbsp;list&nbsp;of&nbsp;words&nbsp;found&nbsp;in&nbsp;the&nbsp;current&nbsp;iteration.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;iteration&nbsp;(int):&nbsp;The&nbsp;current&nbsp;iteration&nbsp;number.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;board_matrix&nbsp;(list):&nbsp;The&nbsp;matrix&nbsp;representing&nbsp;the&nbsp;board.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;previous_placed_letters&nbsp;(set):&nbsp;The&nbsp;set&nbsp;of&nbsp;previously&nbsp;placed&nbsp;letters.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;opponent&nbsp;(Opponent):&nbsp;The&nbsp;opponent&nbsp;player.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Game-__init__"><strong>__init__</strong></a>(self, dictionary_path)</dt><dd><span class="code">Initializes&nbsp;the&nbsp;<a href="#Game">Game</a>&nbsp;with&nbsp;the&nbsp;given&nbsp;dictionary&nbsp;file&nbsp;path.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dictionary_path&nbsp;(str):&nbsp;The&nbsp;path&nbsp;to&nbsp;the&nbsp;dictionary&nbsp;file.</span></dd></dl>
+
+<dl><dt><a name="Game-calculate_score"><strong>calculate_score</strong></a>(self)</dt><dd><span class="code">Calculates&nbsp;the&nbsp;score&nbsp;for&nbsp;the&nbsp;current&nbsp;iteration.</span></dd></dl>
+
+<dl><dt><a name="Game-check_words_connected"><strong>check_words_connected</strong></a>(self)</dt><dd><span class="code">Checks&nbsp;if&nbsp;the&nbsp;words&nbsp;are&nbsp;connected&nbsp;to&nbsp;previously&nbsp;placed&nbsp;letters.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;if&nbsp;the&nbsp;words&nbsp;are&nbsp;connected,&nbsp;False&nbsp;otherwise.</span></dd></dl>
+
+<dl><dt><a name="Game-draw_score"><strong>draw_score</strong></a>(self)</dt><dd><span class="code">Draws&nbsp;the&nbsp;player's&nbsp;and&nbsp;opponent's&nbsp;scores&nbsp;on&nbsp;the&nbsp;screen.</span></dd></dl>
+
+<dl><dt><a name="Game-end_game"><strong>end_game</strong></a>(self)</dt><dd><span class="code">Ends&nbsp;the&nbsp;game&nbsp;and&nbsp;displays&nbsp;the&nbsp;winner.</span></dd></dl>
+
+<dl><dt><a name="Game-find_word"><strong>find_word</strong></a>(self)</dt><dd><span class="code">Finds&nbsp;all&nbsp;the&nbsp;words&nbsp;on&nbsp;the&nbsp;board.</span></dd></dl>
+
+<dl><dt><a name="Game-handle_mouse_button_down"><strong>handle_mouse_button_down</strong></a>(self, event)</dt><dd><span class="code">Handles&nbsp;the&nbsp;mouse&nbsp;button&nbsp;down&nbsp;event.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;event&nbsp;(pygame.event.Event):&nbsp;The&nbsp;event&nbsp;<a href="builtins.html#object">object</a>.</span></dd></dl>
+
+<dl><dt><a name="Game-handle_mouse_button_up"><strong>handle_mouse_button_up</strong></a>(self, event)</dt><dd><span class="code">Handles&nbsp;the&nbsp;mouse&nbsp;button&nbsp;up&nbsp;event.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;event&nbsp;(pygame.event.Event):&nbsp;The&nbsp;event&nbsp;<a href="builtins.html#object">object</a>.</span></dd></dl>
+
+<dl><dt><a name="Game-print_board_matrix"><strong>print_board_matrix</strong></a>(self)</dt><dd><span class="code">Prints&nbsp;the&nbsp;board&nbsp;matrix&nbsp;to&nbsp;the&nbsp;console.</span></dd></dl>
+
+<dl><dt><a name="Game-run"><strong>run</strong></a>(self)</dt><dd><span class="code">Runs&nbsp;the&nbsp;main&nbsp;game&nbsp;loop.</span></dd></dl>
+
+<dl><dt><a name="Game-validate_new_word"><strong>validate_new_word</strong></a>(self)</dt><dd><span class="code">Validates&nbsp;the&nbsp;new&nbsp;words&nbsp;added&nbsp;in&nbsp;the&nbsp;current&nbsp;iteration.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tuple:&nbsp;A&nbsp;boolean&nbsp;indicating&nbsp;if&nbsp;the&nbsp;words&nbsp;are&nbsp;valid&nbsp;and&nbsp;the&nbsp;invalid&nbsp;word&nbsp;if&nbsp;any.</span></dd></dl>
+
+<dl><dt><a name="Game-validate_words"><strong>validate_words</strong></a>(self)</dt><dd><span class="code">Validates&nbsp;the&nbsp;words&nbsp;on&nbsp;the&nbsp;board.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tuple:&nbsp;A&nbsp;boolean&nbsp;indicating&nbsp;if&nbsp;the&nbsp;words&nbsp;are&nbsp;valid&nbsp;and&nbsp;the&nbsp;invalid&nbsp;word&nbsp;if&nbsp;any.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>letter_scores</strong> = {'A': 1, 'B': 3, 'C': 3, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4, 'I': 1, 'J': 8, ...}<br>
+<strong>letters</strong> = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'<br>
+<strong>special_tiles</strong> = {(0, 0): 'TW', (0, 3): 'DL', (0, 7): 'TW', (0, 11): 'DL', (0, 14): 'TW', (1, 1): 'DW', (1, 5): 'TL', (1, 9): 'TL', (1, 13): 'DW', (2, 2): 'DW', ...}</td></tr></table>
+</body></html>

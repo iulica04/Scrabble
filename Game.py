@@ -11,7 +11,43 @@ from tkinter import messagebox
 from Opponent import Opponent
 
 class Game:
+    """
+    Represents the Scrabble game.
+
+    Attributes:
+        dictionary_path (str): The path to the dictionary file.
+        board_size (int): The size of the board.
+        cell_size (int): The size of each cell on the board.
+        margin (int): The margin between cells.
+        menu_height (int): The height of the menu.
+        score_menu (int): The width of the score menu.
+        screen_size (int): The size of the screen.
+        screen (pygame.Surface): The screen to draw on.
+        font (pygame.font.Font): The font for drawing letters.
+        score_font (pygame.font.Font): The font for drawing scores.
+        board (Board): The game board.
+        menu (Menu): The game menu.
+        dragged_letter (str): The letter being dragged.
+        dragged_letter_offset (tuple): The offset of the dragged letter.
+        dragged_letter_pos (tuple): The position of the dragged letter.
+        letter_from_board (tuple): The position of the letter from the board.
+        locked_letters (set): The set of locked letters.
+        total_score (int): The total score of the player.
+        words (list): The list of words found on the board.
+        current_iteration_words (list): The list of words found in the current iteration.
+        iteration (int): The current iteration number.
+        board_matrix (list): The matrix representing the board.
+        previous_placed_letters (set): The set of previously placed letters.
+        opponent (Opponent): The opponent player.
+    """
+
     def __init__(self, dictionary_path):
+        """
+        Initializes the Game with the given dictionary file path.
+
+        Args:
+            dictionary_path (str): The path to the dictionary file.
+        """
         self.dictionary_path = dictionary_path
         self.board_size = 15
         self.cell_size = 45
@@ -44,6 +80,9 @@ class Game:
         self.opponent = Opponent(self)
 
     def run(self):
+        """
+        Runs the main game loop.
+        """
         while True:
             self.screen.fill(Utils.hex_to_rgb('#1a1b21'))
             self.board.draw(self.screen, self.font, self.score_font)
@@ -71,6 +110,12 @@ class Game:
             pygame.display.flip()
 
     def validate_new_word(self):
+        """
+        Validates the new words added in the current iteration.
+
+        Returns:
+            tuple: A boolean indicating if the words are valid and the invalid word if any.
+        """
         if not self.current_iteration_words:
             return False, "No new word added"
 
@@ -81,6 +126,12 @@ class Game:
         return True, None
 
     def handle_mouse_button_down(self, event):
+        """
+        Handles the mouse button down event.
+
+        Args:
+            event (pygame.event.Event): The event object.
+        """
         mouse_x, mouse_y = event.pos
 
         button_action = self.menu.handle_button_click(event.pos)
@@ -147,6 +198,12 @@ class Game:
                 return
 
     def handle_mouse_button_up(self, event):
+        """
+        Handles the mouse button up event.
+
+        Args:
+            event (pygame.event.Event): The event object.
+        """
         if self.dragged_letter:
             mouse_x, mouse_y = event.pos
             col = (mouse_x - self.margin) // (self.cell_size + self.margin)
@@ -179,6 +236,9 @@ class Game:
             self.letter_from_board = None
 
     def calculate_score(self):
+        """
+        Calculates the score for the current iteration.
+        """
         score = 0
         for word in self.current_iteration_words:
             word_score = 0
@@ -203,6 +263,9 @@ class Game:
         print(f"Total score: {self.total_score}")
 
     def draw_score(self):
+        """
+        Draws the player's and opponent's scores on the screen.
+        """
         # Draw player's score
         player_score_text = self.font.render(f"Player Score: {self.total_score}", True, (255, 255, 255))
         self.screen.blit(player_score_text, (self.screen_size + 20, 20))
@@ -227,6 +290,9 @@ class Game:
             y_offset += 40
 
     def find_word(self):
+        """
+        Finds all the words on the board.
+        """
         checked_positions = set()
         self.words = []
         self.current_iteration_words = []
@@ -267,6 +333,12 @@ class Game:
                         print(f"Found vertical word: {''.join([letter for letter, _ in word])}")
 
     def check_words_connected(self):
+        """
+        Checks if the words are connected to previously placed letters.
+
+        Returns:
+            bool: True if the words are connected, False otherwise.
+        """
         if not self.words:
             return False
 
@@ -282,10 +354,19 @@ class Game:
         return False
 
     def print_board_matrix(self):
+        """
+        Prints the board matrix to the console.
+        """
         for row in self.board_matrix:
             print([f"{cell[0]}({cell[1]})" if cell else "None" for cell in row])
 
     def validate_words(self):
+        """
+        Validates the words on the board.
+
+        Returns:
+            tuple: A boolean indicating if the words are valid and the invalid word if any.
+        """
         for word, _ in self.words:
             word_str = ''.join([letter for letter, _ in word])
             if word_str not in self.menu.dictionary:
@@ -293,6 +374,9 @@ class Game:
         return True, None
 
     def end_game(self):
+        """
+        Ends the game and displays the winner.
+        """
         winner = "Player" if self.total_score > self.opponent.total_score else "Opponent"
         if self.total_score == self.opponent.total_score:
             winner = "It's a tie!"

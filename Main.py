@@ -2,12 +2,30 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import ttk
 
-from DictionartProcessor import DictionaryProcessor
+from DictionaryProcessor import DictionaryProcessor
 from Game import Game
 import os
 
 class MainGUI:
+    """
+    Represents the main GUI for the Scrabble game.
+
+    Attributes:
+        root (tk.Tk): The root window of the GUI.
+        background_image (tk.PhotoImage): The background image for the GUI.
+        background_label (tk.Label): The label to display the background image.
+        upload_button (ttk.Button): The button to upload the dictionary file.
+        start_button (ttk.Button): The button to start the game.
+        dictionary_path (str): The path to the uploaded dictionary file.
+    """
+
     def __init__(self, root):
+        """
+        Initializes the MainGUI with the given root window.
+
+        Args:
+            root (tk.Tk): The root window of the GUI.
+        """
         self.root = root
         self.root.title("Scrabble Game")
         self.root.geometry("800x600")
@@ -35,6 +53,9 @@ class MainGUI:
         self.dictionary_path = None
 
     def upload_file(self):
+        """
+        Opens a file dialog to upload a dictionary file.
+        """
         self.dictionary_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
         if self.dictionary_path:
             file_name = os.path.basename(self.dictionary_path)
@@ -42,6 +63,9 @@ class MainGUI:
             self.start_button.config(state=tk.NORMAL)
 
     def start_game(self):
+        """
+        Starts the Scrabble game if a dictionary file is uploaded.
+        """
         if self.dictionary_path:
             processor = DictionaryProcessor(self.dictionary_path)
             processor.load_dictionary()

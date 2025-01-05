@@ -2,8 +2,29 @@ import pygame
 import Utils
 from Cell import Cell
 from constants import letter_scores
+
 class Board:
+    """
+    Represents the game board for Scrabble.
+
+    Attributes:
+        board_size (int): The size of the board.
+        cell_size (int): The size of each cell on the board.
+        margin (int): The margin between cells.
+        placed_letters (dict): A dictionary of placed letters with their positions.
+        cell_colors (dict): A dictionary of cell colors with their positions.
+        piece_color (tuple): The color of the pieces.
+    """
+
     def __init__(self, board_size, cell_size, margin):
+        """
+        Initializes the Board with the given size, cell size, and margin.
+
+        Args:
+            board_size (int): The size of the board.
+            cell_size (int): The size of each cell on the board.
+            margin (int): The margin between cells.
+        """
         self.board_size = board_size
         self.cell_size = cell_size
         self.margin = margin
@@ -16,10 +37,23 @@ class Board:
                 self.cell_colors[(row, col)] = Cell.get_cell_color(row, col)
 
     def count_placed_letters(self):
-        # Returnează numărul de litere plasate pe tablă
+        """
+        Returns the number of letters placed on the board.
+
+        Returns:
+            int: The number of placed letters.
+        """
         return len(self.placed_letters)
 
     def draw(self, screen, font, score_font):
+        """
+        Draws the board and the placed letters on the screen.
+
+        Args:
+            screen (pygame.Surface): The screen to draw on.
+            font (pygame.font.Font): The font for drawing letters.
+            score_font (pygame.font.Font): The font for drawing letter scores.
+        """
         for row in range(self.board_size):
             for col in range(self.board_size):
                 x = self.margin + col * (self.cell_size + self.margin)
@@ -47,6 +81,12 @@ class Board:
                     screen.blit(score_text, (score_x, score_y))
 
     def draw_borders(self, screen):
+        """
+        Draws the borders between placed letters on the board.
+
+        Args:
+            screen (pygame.Surface): The screen to draw on.
+        """
         border_color = Utils.hex_to_rgb('#b79d9b')  # Border color between letters
 
         def are_neighbors(cell1, cell2):
@@ -71,16 +111,13 @@ class Board:
                     if row == neighbor[0]:  # Horizontal neighbor
                         rect_x = min(x, nx) + self.cell_size - self.margin * 2
                         rect_y = y
-                        rect_width = self.margin*5
+                        rect_width = self.margin * 5
                         rect_height = self.cell_size
                     else:  # Vertical neighbor
                         rect_x = x
-
                         rect_y = min(y, ny) + self.cell_size - self.margin * 2
                         rect_width = self.cell_size
-                        rect_height = self.margin *5
+                        rect_height = self.margin * 5
 
                     # Draw the rectangle between letters
                     pygame.draw.rect(screen, border_color, (rect_x, rect_y, rect_width, rect_height))
-                    # Draw the border for the neighbor as well
-                   # pygame.draw.rect(screen, border_color, (nx, ny, self.cell_size, self.cell_size), 2)

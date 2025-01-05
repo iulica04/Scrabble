@@ -1,6 +1,13 @@
 import Utils
 
 class Cell:
+    """
+    Represents a cell on the Scrabble board with potential bonus types.
+
+    Attributes:
+        bonus_cells (dict): A dictionary mapping cell positions to their bonus types.
+    """
+
     bonus_cells = {
         (0, 0): 'TW', (0, 7): 'TW', (0, 14): 'TW',
         (7, 0): 'TW', (7, 7): 'TW', (7, 14): 'TW',
@@ -22,6 +29,16 @@ class Cell:
 
     @staticmethod
     def get_cell_color(row, col):
+        """
+        Returns the color of the cell based on its position and bonus type.
+
+        Args:
+            row (int): The row position of the cell.
+            col (int): The column position of the cell.
+
+        Returns:
+            tuple: The RGB color of the cell.
+        """
         if (row, col) in Cell.bonus_cells:
             bonus_type = Cell.bonus_cells[(row, col)]
             if bonus_type == 'TW':
