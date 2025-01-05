@@ -81,29 +81,37 @@ class Menu:
         return None
 
     def replace_letters(self):
-        # Replace used letters with new ones
-        while True:
-            num_new_letters = 7 - len(self.menu_letters)
-            new_letters = [self.get_random_letter() for _ in range(num_new_letters)]
-            potential_word = ''.join(self.menu_letters + new_letters)
-
-            if any(word in self.dictionary for word in self.get_all_combinations(potential_word)):
-                self.menu_letters.extend(new_letters)
-                break
-
+        available_letters = self.get_available_letters()
+        valid_words = [word for word in self.dictionary if any(letter in available_letters for letter in word)]
+        if valid_words:
+            selected_word = random.choice(valid_words)
+            self.menu_letters = list(selected_word[:7])
+            if len(self.menu_letters) < 7:
+                self.menu_letters.extend(random.choices(letters, k=7 - len(self.menu_letters)))
+        else:
+            self.menu_letters = random.choices(letters, k=7)
         self.update_letter_positions()
 
-    def get_all_combinations(self, letters):
-        from itertools import permutations
-        combinations = set()
-        for i in range(1, len(letters) + 1):
-            for combo in permutations(letters, i):
-                combinations.add(''.join(combo))
-        return combinations
+    def get_available_letters(self):
+        available_letters = set(self.menu_letters)
+        for row in range(self.game.board_size):
+            for col in range(self.game.board_size):
+                if self.game.board_matrix[row][col] is not None:
+                    if self.count_neighbors(row, col) <= 2:
+                        available_letters.add(self.game.board_matrix[row][col][0])
+        return available_letters
+
+    def count_neighbors(self, row, col):
+        neighbors = 0
+        for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            adj_row, adj_col = row + dr, col + dc
+            if 0 <= adj_row < self.game.board_size and 0 <= adj_col < self.game.board_size:
+                if self.game.board_matrix[adj_row][adj_col] is not None:
+                    neighbors += 1
+        return neighbors
 
     @staticmethod
     def get_random_letter():
-        # Generate a random letter (you can customize this method as needed)
         return random.choice(letters)
 
     def shuffle_letters(self):

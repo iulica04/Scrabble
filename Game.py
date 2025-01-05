@@ -8,6 +8,7 @@ from Cell import Cell
 from constants import letters, letter_scores, special_tiles
 import tkinter as tk
 from tkinter import messagebox
+from Opponent import Opponent
 
 class Game:
     def __init__(self, dictionary_path):
@@ -40,6 +41,7 @@ class Game:
         self.iteration = 0
         self.board_matrix = [[None for _ in range(self.board_size)] for _ in range(self.board_size)]
         self.previous_placed_letters = set()
+        self.opponent = Opponent(self)
 
     def run(self):
         while True:
@@ -112,6 +114,10 @@ class Game:
             for word in self.current_iteration_words:
                 print(f"Word added: {''.join([letter for letter, _ in word])}")
             self.menu.replace_letters()  # Generate new letters only when words are connected
+
+            # Opponent makes a move
+            self.opponent.make_move()
+
         elif button_action == "shuffle":
             self.menu.shuffle_letters()
             return
