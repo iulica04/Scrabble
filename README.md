@@ -3,3 +3,4 @@ Acesta reprezinta proiectul la disciplica Python [![](https://skillicons.dev/ico
 
 ## MODUL DE RULARE
 Jocul incepe simplu: se va da start din program. Dupa pornirea jocului se va afisa fereastra principala: 
+<img align="center" src="Images/1.png">
