@@ -7,6 +7,6 @@ Jocul incepe simplu: se va da start din program. Dupa pornirea jocului se va afi
 <img align="center" src="Images/1.png">
 
 Pentru a incepe jocul, va trebui sa adaugam un fisier care contine pe fiecare linie cate un cuvant
-, fisier ce va reprezenta dictionarul de cuvinte ce vor putea fi folosite in joc.
+, fisier ce va reprezenta dictionarul de cuvinte ce vor putea fi folosite in joc, apoi se va apasa butonul "Start joc".
 
 <img align="center" src="Images/2.png">
