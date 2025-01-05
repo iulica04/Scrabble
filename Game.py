@@ -23,7 +23,7 @@ class Game:
 
         pygame.init()
         self.screen = pygame.display.set_mode((self.screen_size + self.score_menu, self.screen_size + self.menu_height))
-        pygame.display.set_caption("Scrabble with Drag-and-Drop")
+        pygame.display.set_caption("Scrabble Game")
         self.font = pygame.font.Font(None, 36)
         self.score_font = pygame.font.Font(None, 20)
 
